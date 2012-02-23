@@ -1,0 +1,23 @@
+gnuplot:
+  ubuntu: gnuplot-x11
+  arch: gnuplot
+  fedora: gnuplot
+libraw1394-dev:
+  ubuntu: libraw1394-dev
+  fedora: libraw1394-devel
+
+# Note: does not work for Hardy, which is no longer supported after
+# boxturtle (1394 camera support in Hardy was problematic, anyway).
+libdc1394-dev:
+  ubuntu: libdc1394-22-dev
+  arch: libdc1394
+  fedora: libdc1394-devel
+  macports: libdc1394
+
+gforth:
+  ubuntu: gforth
+  debian: gforth
+  macports: gforth
+  arch: gforth
+  gentoo: gforth
+  fedora: gforth

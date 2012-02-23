@@ -1,0 +1,20 @@
+<!-- -*- mode: XML -*- -->
+
+<!-- Example launch file for a pair of stereo cameras. -->
+
+<launch>
+
+  <!-- run both cameras in the stereo namespace -->
+  <group ns="stereo" >
+
+    <!-- left camera -->
+    <node pkg="camera1394" type="camera1394_node" name="bumblebee" >
+        <param name="video_mode" value="format7_3" />
+        <param name="bayer_pattern" value="rggb"/>
+    </node>
+
+    </node>
+
+  </group>
+
+</launch>
