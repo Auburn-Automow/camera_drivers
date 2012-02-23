@@ -1,0 +1,17 @@
+<package>
+  <description brief="bumblebee1394">
+
+     Bumblebee 2 configuration files for use with the modified Camera1394
+     package.
+
+  </description>
+  <author>Michael Carroll</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/bumblebee1394</url>
+
+  <depends package="camera1394"/>
+
+</package>
+
+

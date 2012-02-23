@@ -1,0 +1,8 @@
+<launch>
+
+    <include file="$(find bumblebee1394)/launch/bumblebee_example.launch"/>
+
+    <node name="stereo_proc" pkg="stereo_image_proc" type="stereo_image_proc"
+        ns="camera"/>
+
+</launch>
