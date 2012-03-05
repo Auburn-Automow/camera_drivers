@@ -13,10 +13,11 @@
       <param name="frame_id" value="bumblebee" />
       <param name="format7_color_coding" value="raw16"/>
 
-      <param name="left_camera_info_url"
-          value="file:///home/mjcarroll/.ros/camera_info/left.yaml" />
+      <!--     <param name="left_camera_info_url"
+          value="$(find bumblebee1394)/camera_info/left.yaml" />
       <param name="right_camera_info_url"
-          value="file:///home/mjcarroll/.ros/camera_info/right.yaml" />
+          value="$(find bumblebee1394)/camera_info/right.yaml" />
+          -->
     </node>
 
 </launch>
