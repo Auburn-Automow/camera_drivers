@@ -1,0 +1,9 @@
+<launch>
+    <include file="$(find bumblebee1394)/launch/bumblebee_example.launch"/>
+    <node ns="camera/left" pkg="image_proc" type="image_proc" name="image_proc" />
+    <node ns="camera/right" pkg="image_proc" type="image_proc"
+        name="image_proc" />
+        
+</launch>
+
+
