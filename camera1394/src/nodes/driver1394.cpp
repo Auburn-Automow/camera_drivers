@@ -139,7 +139,7 @@ namespace camera1394_driver
                       }
                     else if (newconfig.multicam != "mono")
                     {
-                    	right_cinfo_->setCameraName(camera_name_);
+                      right_cinfo_->setCameraName(camera_name_);
                     }
                   }
                 ROS_INFO_STREAM("[" << camera_name_ << "] opened: "
@@ -211,32 +211,32 @@ namespace camera1394_driver
    *  @param image points to latest camera frame
    */
   void Camera1394Driver::publish(const sensor_msgs::ImagePtr &left_image,
-		  	  	  	  	  	  	 const sensor_msgs::ImagePtr &right_image)
+                             const sensor_msgs::ImagePtr &right_image)
   {
-	if (config_.multicam == "mono")
-	{
-		left_image->header.frame_id = config_.frame_id;
-		sensor_msgs::CameraInfoPtr
-			ci(new sensor_msgs::CameraInfo(left_cinfo_->getCameraInfo()));
-		checkCameraInfo(left_image, ci, left_calibration_matches_, camera_name_);
-		dev_->setOperationalParameters(*ci);
+  if (config_.multicam == "mono")
+  {
+    left_image->header.frame_id = config_.frame_id;
+    sensor_msgs::CameraInfoPtr
+      ci(new sensor_msgs::CameraInfo(left_cinfo_->getCameraInfo()));
+    checkCameraInfo(left_image, ci, left_calibration_matches_, camera_name_);
+    dev_->setOperationalParameters(*ci);
 
-		ci->header.frame_id = config_.frame_id;
-		ci->header.stamp = left_image->header.stamp;
+    ci->header.frame_id = config_.frame_id;
+    ci->header.stamp = left_image->header.stamp;
 
-		left_image_pub_.publish(left_image, ci);
-	}
-	else
-	{
-		sensor_msgs::CameraInfoPtr
-			left_ci(new sensor_msgs::CameraInfo(left_cinfo_->getCameraInfo()));
-		sensor_msgs::CameraInfoPtr
-			right_ci(new sensor_msgs::CameraInfo(right_cinfo_->getCameraInfo()));
-		checkCameraInfo(left_image, left_ci, left_calibration_matches_, camera_name_ + "/left");
-		checkCameraInfo(right_image, right_ci, right_calibration_matches_, camera_name_ + "/right");
+    left_image_pub_.publish(left_image, ci);
+  }
+  else
+  {
+    sensor_msgs::CameraInfoPtr
+      left_ci(new sensor_msgs::CameraInfo(left_cinfo_->getCameraInfo()));
+    sensor_msgs::CameraInfoPtr
+      right_ci(new sensor_msgs::CameraInfo(right_cinfo_->getCameraInfo()));
+    checkCameraInfo(left_image, left_ci, left_calibration_matches_, camera_name_ + "/left");
+    checkCameraInfo(right_image, right_ci, right_calibration_matches_, camera_name_ + "/right");
 
-		dev_->setOperationalParameters(*left_ci);
-		dev_->setOperationalParameters(*right_ci);
+    dev_->setOperationalParameters(*left_ci);
+    dev_->setOperationalParameters(*right_ci);
 
         left_ci->header.frame_id = config_.frame_id;
         left_ci->header.stamp = left_image->header.stamp;
@@ -247,13 +247,13 @@ namespace camera1394_driver
         left_image_pub_.publish(left_image, left_ci);
         right_image_pub_.publish(right_image, right_ci);
 
-	}
+  }
   }
 
   void Camera1394Driver::checkCameraInfo(const sensor_msgs::ImagePtr &image,
-		  	  	  	  	  	  	  	     sensor_msgs::CameraInfoPtr &ci,
-		  	  	  	  	  	  	  	     bool &calibration_matches,
-		  	  	  	  	  	  	  	     std::string camera_name)
+                                     sensor_msgs::CameraInfoPtr &ci,
+                                     bool &calibration_matches,
+                                     std::string camera_name)
   {
     if (!dev_->checkCameraInfo(*image, *ci))
       {
@@ -285,8 +285,8 @@ namespace camera1394_driver
    * @param image points to camera Image message
    * @return true if successful, with image filled in
    */
-  bool Camera1394Driver::read(sensor_msgs::ImagePtr &left_image,
-		  	  	  	  	  	  sensor_msgs::ImagePtr &right_image)
+  bool Camera1394Driver::read(sensor_msgs::ImagePtr &right_image,
+                              sensor_msgs::ImagePtr &left_image)
   {
     bool success = true;
     try
@@ -331,8 +331,8 @@ namespace camera1394_driver
 
     if (newconfig.multicam != "mono" && newconfig.multicam != "stereo_interlaced")
     {
-    	ROS_WARN("Invalid value for parameter multicam.  Defaulting to 'mono'.");
-    	newconfig.multicam = "mono";
+      ROS_WARN("Invalid value for parameter multicam.  Defaulting to 'mono'.");
+      newconfig.multicam = "mono";
     }
 
     if (state_ != Driver::CLOSED && (level & Levels::RECONFIGURE_CLOSE))
@@ -343,9 +343,9 @@ namespace camera1394_driver
 
     if (newconfig.multicam == "mono")
       {
-    	if (config_.multicam != newconfig.multicam)
+      if (config_.multicam != newconfig.multicam)
           {
-    		//switching from stereo
+        //switching from stereo
             left_cinfo_.reset(new CameraInfoManager(camera_nh_, camera_name_, newconfig.camera_info_url));
             right_cinfo_.reset();
 
@@ -359,24 +359,24 @@ namespace camera1394_driver
 
           }
 
-    	if (config_.camera_info_url != newconfig.camera_info_url)
-    	{
-			// set the new URL and load CameraInfo (if any) from it
-			if (left_cinfo_->validateURL(newconfig.camera_info_url))
-			  {
-				left_cinfo_->loadCameraInfo(newconfig.camera_info_url);
-			  }
-			else
-			  {
-				// new URL not valid, use the old one
-				newconfig.camera_info_url = config_.camera_info_url;
-			  }
-    	}
+      if (config_.camera_info_url != newconfig.camera_info_url)
+      {
+      // set the new URL and load CameraInfo (if any) from it
+      if (left_cinfo_->validateURL(newconfig.camera_info_url))
+        {
+        left_cinfo_->loadCameraInfo(newconfig.camera_info_url);
+        }
+      else
+        {
+        // new URL not valid, use the old one
+        newconfig.camera_info_url = config_.camera_info_url;
+        }
+      }
       }
     else
     {
-    	if (config_.multicam != newconfig.multicam)
-    	{
+      if (config_.multicam != newconfig.multicam)
+      {
             // switching from mono
             left_cinfo_.reset(new CameraInfoManager(left_camera_nh_, camera_name_, newconfig.left_camera_info_url));
             right_cinfo_.reset(new CameraInfoManager(right_camera_nh_, camera_name_, newconfig.right_camera_info_url));
@@ -389,9 +389,9 @@ namespace camera1394_driver
 
             left_image_pub_ = left_it_->advertiseCamera("image_raw", 1);
             right_image_pub_ = right_it_->advertiseCamera("image_raw", 1);
-    	}
-    	if (config_.left_camera_info_url != newconfig.left_camera_info_url)
-    	{
+      }
+      if (config_.left_camera_info_url != newconfig.left_camera_info_url)
+      {
             // set the new URL and load CameraInfo (if any) from it
             if (left_cinfo_->validateURL(newconfig.left_camera_info_url))
               {
@@ -413,17 +413,17 @@ namespace camera1394_driver
                 newconfig.right_camera_info_url = config_.right_camera_info_url;
               }
 
-    	}
+      }
     }
 
     if (state_ == Driver::CLOSED)
     {
-    	// open with new values
-    	if (openCamera(newconfig))
-    	{
-    		//update GUID string parameter
-    		newconfig.guid = camera_name_;
-    	}
+      // open with new values
+      if (openCamera(newconfig))
+      {
+        //update GUID string parameter
+        newconfig.guid = camera_name_;
+      }
     }
 
     if (state_ != Driver::CLOSED)       // openCamera() succeeded?
