@@ -346,7 +346,7 @@ namespace camera1394_driver
       if (config_.multicam != newconfig.multicam)
           {
         //switching from stereo
-            left_cinfo_.reset(new CameraInfoManager(camera_nh_, camera_name_, newconfig.camera_info_url));
+            left_cinfo_.reset(new camera_info_manager::CameraInfoManager(camera_nh_, camera_name_, newconfig.camera_info_url));
             right_cinfo_.reset();
 
             left_image_pub_ = image_transport::CameraPublisher();
@@ -378,8 +378,8 @@ namespace camera1394_driver
       if (config_.multicam != newconfig.multicam)
       {
             // switching from mono
-            left_cinfo_.reset(new CameraInfoManager(left_camera_nh_, camera_name_, newconfig.left_camera_info_url));
-            right_cinfo_.reset(new CameraInfoManager(right_camera_nh_, camera_name_, newconfig.right_camera_info_url));
+            left_cinfo_.reset(new camera_info_manager::CameraInfoManager(left_camera_nh_, camera_name_, newconfig.left_camera_info_url));
+            right_cinfo_.reset(new camera_info_manager::CameraInfoManager(right_camera_nh_, camera_name_, newconfig.right_camera_info_url));
 
             left_image_pub_ = image_transport::CameraPublisher();
             right_image_pub_ = image_transport::CameraPublisher();
